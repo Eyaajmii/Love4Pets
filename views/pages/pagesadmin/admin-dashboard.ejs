@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableau de bord Admin</title>
+</head>
+<body>
+  <h1>Tableau de bord Admin</h1>
+  <h2>Liste des utilisateurs :</h2>
+  <ul>
+    <% users.forEach(function(user) { %>
+      <li><%= user.name %></li>
+    <% }); %>
+  </ul>
+  <a href="/logout">Se déconnecter</a>
+</body>
+</html>

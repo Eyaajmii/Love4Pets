@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des animaux</title>
+</head>
+<body>
+    <h1>Liste des animaux</h1>
+    <ul>
+        <% animals.forEach(animal => { %>
+            <li>
+                <strong><%= animal.nom %></strong> - <%= animal.espece %> - <%= animal.age %> ans - <%= animal.taille %> - 
+                <a href="/animals/details/<%= animal.id %>">View Details</a>
+                <form action="/animals/delete/<%= animal.id %>?_method=DELETE" method="POST">
+                    <button type="submit">Delete</button>
+                  </form>
+            </li>
+        <% }); %>
+    </ul>
+    <a href="/animals/add">Ajouter un nouvel animal</a>
+</body>
+</html>

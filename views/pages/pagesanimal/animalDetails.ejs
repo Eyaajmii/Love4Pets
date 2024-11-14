@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Animal</title>
+</head>
+<body>
+  <h1>Edit Animal</h1>
+  <form action="/animals/edit/<%= animal.id %>?_method=PUT" method="POST">
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" value="<%= animal.nom %>" required>
+    
+    <label for="espece">Espèce:</label>
+    <input type="text" id="espece" name="espece" value="<%= animal.espece %>" required>
+    
+    <label for="age">Âge:</label>
+    <input type="number" id="age" name="age" value="<%= animal.age %>" required>
+    
+    <label for="taille">Taille:</label>
+    <input type="text" id="taille" name="taille" value="<%= animal.taille %>" required>
+    
+    <label for="statut">Statut:</label>
+    <input type="text" id="statut" name="statut" value="<%= animal.statut %>" required>
+    
+    <label for="image">Image URL:</label>
+    <input type="text" id="image" name="image" value="<%= animal.image %>" required>
+    
+    <label for="sexe">Sexe:</label>
+    <input type="text" id="sexe" name="sexe" value="<%= animal.sexe %>" required>
+    
+    <button type="submit">Save Changes</button>
+  </form>
+</body>
+</html>
