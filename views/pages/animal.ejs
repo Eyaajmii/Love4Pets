@@ -1,0 +1,39 @@
+<%- include('admin') %>
+<div class="content">
+    <h1>Manage Animals</h1>
+    <a href="/admin/animal/add" class="btn btn-primary mb-3">Add New Animal</a>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (animals && animals.length > 0) { %>
+                <% animals.forEach(animal => { %>
+                    <tr>
+                        <td><%= animal._id %></td>
+                        <td><%= animal.nom %></td>
+                        <td><%= animal.espece %></td>
+                        <td><%= animal.age %></td>
+                        <td>
+                            <a href="/admin/detail/<%= animal._id %>"  class="btn btn-warning btn-sm">Details </a>
+                            <a href="/admin/edit/<%= animal._id %>" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="/admin/delete/<%= animal._id %>" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="5" class="text-center">Aucun animales trouvés</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>

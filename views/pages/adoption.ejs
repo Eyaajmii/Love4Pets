@@ -1,0 +1,41 @@
+<%- include('admin') %>
+<div class="content">
+  <h1 class="my-4">Adoption Requests</h1>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Adopter</th>
+        <th>Animal</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (demandes.length > 0) { %>
+        <% demandes.forEach((demande) => { %>
+          <tr>
+            <td><%= demande._id %></td>
+            <td><%= demande.adoptant ? demande.adoptant.name : "Non spécifié" %></td>
+            <td><%= demande.animal ? demande.animal.name : "Non spécifié" %></td>
+            <td>
+              <span class="badge 
+                <%= demande.statut === 'Approuvé' ? 'badge-success' : demande.statut === 'Rejeté' ? 'badge-danger' : 'badge-secondary' %>">
+                <%= demande.statut %>
+              </span>
+            </td>
+            <td>
+              <a href="/admin/detail/<%= demande._id %>" class="btn btn-info btn-sm">Détail</a>
+              <a href="/admin/update-status/<%= demande._id %>?action=approve" class="btn btn-success btn-sm">Approuver</a>
+              <a href="/admin/update-status/<%= demande._id %>?action=reject" class="btn btn-danger btn-sm">Rejeter</a>
+            </td>
+          </tr>
+        <% }); %>
+      <% } else { %>
+        <tr>
+          <td colspan="5" class="text-center">Aucune demande d'adoption trouvée</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,35 @@
+<%- include('admin') %> 
+<div class="content container mt-5">
+  <h1 class="mb-4 text-center">Animal Details</h1>
+
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3 class="card-title"><%= animal.nom %></h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <!-- Image de l'animal (remplacer par une URL dynamique si disponible) -->
+          <img src="<%= animal.image || 'https://via.placeholder.com/300' %>" alt="<%= animal.nom %>" class="img-fluid rounded">
+        </div>
+        <div class="col-md-8">
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Species:</strong> <%= animal.espece %></li>
+            <li class="list-group-item"><strong>Age:</strong> <%= animal.age %> years</li>
+            <li class="list-group-item"><strong>Size:</strong> <%= animal.taille %></li>
+            <li class="list-group-item"><strong>Status:</strong> <%= animal.statut %></li>
+            <li class="list-group-item"><strong>Sex:</strong> <%= animal.sexe %></li>
+            <li class="list-group-item"><strong>Description:</strong> <%= animal.description || 'No description available' %></li>
+            <li class="list-group-item"><strong>Vaccination:</strong> <%= animal.vaccination || 'Not specified' %></li>
+            <li class="list-group-item"><strong>Incompatibility:</strong> <%= animal.incompatibilite || 'None' %></li>
+            <li class="list-group-item"><strong>Search:</strong> <%= animal.recherche || 'N/A' %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <a href="/admin/edit/<%= animal._id %>" class="btn btn-warning">Edit</a>
+      <a href="/admin/animals">Back </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<%- include('admin') %>
+<section>
+  <h1>Détails de la Demande d'Adoption</h1>
+  <table>
+    <tr>
+      <th>ID :</th>
+      <td><%= demande._id %></td>
+    </tr>
+    <tr>
+      <th>Date de Demande :</th>
+      <td><%= demande.DateDemande.toLocaleDateString() %></td>
+    </tr>
+    <tr>
+      <th>Statut :</th>
+      <td><%= demande.statut %></td>
+    </tr>
+    <tr>
+      <th>Commentaire :</th>
+      <td><%= demande.Commentaire || "Aucun commentaire" %></td>
+    </tr>
+    <tr>
+      <th>Adoptant :</th>
+      <td>
+        <strong>Nom :</strong> <%= demande.adoptant.name %><br>
+        <strong>Email :</strong> <%= demande.adoptant.email %>
+      </td>
+    </tr>
+    <tr>
+      <th>Animal :</th>
+      <td>
+        <strong>Nom :</strong> <%= demande.animal.name %><br>
+        <strong>Type :</strong> <%= demande.animal.type %><br>
+        <strong>Race :</strong> <%= demande.animal.race %>
+      </td>
+    </tr>
+    <tr>
+      <th>Date d'Adoption (si approuvée) :</th>
+      <td><%= demande.DateAdoption ? demande.DateAdoption.toLocaleDateString() : "Non disponible" %></td>
+    </tr>
+  </table>
+
+  <a href="/admin/listedemande" class="btn btn-secondary">Retour à la liste</a>
+</section>
