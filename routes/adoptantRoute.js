@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const authService=require("../Services/authService");
 const AdoptantService=require("../Services/adoptantService");
-
+const AnimalService = require("../Services/animalService");
+const AdoptionService = require("../Services/adoptionService");
 /** Auth*/
 router.get("/signup", (req, res) => {
   res.status(200);
@@ -47,7 +48,7 @@ router.get("/adoptant/:id", async(req, res) => {
  }
 });
 
-router.post("/edit/:id",async (req, res) => {
+router.put("/editprofile/:id",async (req, res) => {
   const { id } = req.params;
   const { nom, prenom, username, email, password } = req.body;
 
@@ -60,7 +61,7 @@ router.post("/edit/:id",async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async(req, res) => {
+router.delete("/deleteprofile/:id", async(req, res) => {
   const{id}=req.params;
   try{
     const deletedAdoptant=await AdoptantService.deleteAdoptant(id);
@@ -73,12 +74,26 @@ router.delete("/delete/:id", async(req, res) => {
 /**Gerrer animal */
 
 //all animals
-router.get("/", (req, res) => {
-  res.status(200).send("La liste des animaux");
+router.get("/animals", async (req, res) => {
+  try {
+    const animals = await AnimalService.getAllAnimals();
+      res.status(200).json(animals);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 //detail aniaml
-router.get("/details/:id", (req, res) => {
-  res.status(200).send("animal ",id);
+router.get("/animal/:id", async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const animal = await AnimalService.getAnimalById(id); 
+    if (!animal) {
+      return res.status(404).send("Animal not found");
+    }
+    res.status(200).json(animal); 
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 /**Gerer adoption */
@@ -86,20 +101,52 @@ router.get("/addDemande/:animalId", (req, res) => {
   res
     .status(200)
     .send(
-      `Page de formulaire pour la demande d'adoption de l'animal ${animalId}`
+      `Page de formulaire pour la demande d'adoption de l'animal `
     );
 });
-router.post("/addDemande/{animalId", (req, res) => {
-  res.status(200).send("demande ajouté avec succès");
+//new request
+router.post("/addDemande/:animalId", async (req, res) => {
+  const { userId } = req.body; 
+
+  try {
+    const newAdoption = await AdoptionService.createAdoptionRequest(
+      req.params.animalId,
+      userId
+    );
+    res.status(200).json(newAdoption);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
-//affiche demande
-router.get("/demandes/:userId", (req, res) => {
-  res.status(200);
+//affiche demande les deatils de l'adoptant
+router.get("/demandes/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const adoptions = await AdoptionService.getAdoptionsByUserId(id);
+
+    if (!adoptions || adoptions.length === 0) {
+      return res.status(404).json({ message: "No adoptions found for this user." });
+    }
+
+    res.status(200).json(adoptions);
+  } catch (error) {
+    console.error("Error fetching user adoptions:", error.message);
+    res.status(500).json({ message: "Error fetching user adoptions.", error: error.message });
+  }
 });
 
-router.delete("/demandes/:userId/:adoptionId", (req, res) => {
-  res.status(200).send("Demande d'adoption annulée avec succès.");
+router.delete("/demandes/:userId/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletReq = await AdoptionService.cancelAdoptionRequest(id);
+    // Send a success response
+    res.status(200).json({ message: deletReq.message });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
+
 
 
 module.exports = router;

@@ -25,8 +25,11 @@
 
         <div class="form-group">
             <label for="statut">Status:</label>
-            <input type="text" name="statut" class="form-control" value="<%= animal.statut %>" required>
-        </div>
+            <select id="statut" name="statut" class="form-control" required>
+              <option value="Not Adopted" <%= animal.statut === "Not Adopted" ? "selected" : "" %>>Not Adopted</option>
+              <option value="Adopted" <%= animal.statut === "Adopted" ? "selected" : "" %>>Adopted</option>
+            </select>
+          </div>
 
         <div class="form-group">
             <label for="sexe">Sex:</label>
@@ -51,11 +54,15 @@
             <input type="text" name="incompatibilite" class="form-control" value="<%= animal.incompatibilite %>">
         </div>
 
-        <div class="form-group">
-            <label for="vaccination">Vaccination:</label>
-            <input type="text" name="vaccination" class="form-control" value="<%= animal.vaccination %>">
+        <div class="form-group form-check">
+            <input 
+              type="checkbox" 
+              id="vaccination" 
+              name="vaccination" 
+              class="form-check-input" 
+              <%= animal.vaccination ? "checked" : "" %>
+            <label for="vaccination" class="form-check-label">Vaccinated</label>
         </div>
-
         <button type="submit" class="btn btn-primary">Update Animal</button>
     </form>
 </div>

@@ -1,31 +1,21 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const path = require("path");
+const app = express();
+const port = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const port = process.env.PORT || 3000;
 const methodOverride = require("method-override");
 const adoptantRoute = require("./routes/adoptantRoute");
 const adminRoute = require("./routes/adminRoute");
-const session = require("express-session");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
-const app = express();
-/*app.use(cookieParser());*/
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// Middleware
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
-
-
-app.use(
-  session({
-    secret: process.env.TOKEN_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 
 // MongoDB connection
 mongoose
@@ -33,13 +23,16 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
+// View engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-
+// Routes
 app.use("/adoptant", adoptantRoute);
 app.use("/admin", adminRoute);
 
+
+// Server start
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

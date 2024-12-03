@@ -16,16 +16,13 @@
         <% demandes.forEach((demande) => { %>
           <tr>
             <td><%= demande._id %></td>
-            <td><%= demande.adoptant ? demande.adoptant.name : "Non spécifié" %></td>
-            <td><%= demande.animal ? demande.animal.name : "Non spécifié" %></td>
+            <td><%= demande.adoptant ? `${demande.adoptant.nom} ${demande.adoptant.prenom}`: "Non spécifié" %></td>
+            <td><%= demande.animal ? demande.animal.nom : "Non spécifié" %></td>
             <td>
-              <span class="badge 
-                <%= demande.statut === 'Approuvé' ? 'badge-success' : demande.statut === 'Rejeté' ? 'badge-danger' : 'badge-secondary' %>">
-                <%= demande.statut %>
-              </span>
+            <%= demande.statut %>
             </td>
             <td>
-              <a href="/admin/detail/<%= demande._id %>" class="btn btn-info btn-sm">Détail</a>
+              <a href="/admin/demande/detail/<%= demande._id %>" class="btn btn-info btn-sm">Détail</a>
               <a href="/admin/update-status/<%= demande._id %>?action=approve" class="btn btn-success btn-sm">Approuver</a>
               <a href="/admin/update-status/<%= demande._id %>?action=reject" class="btn btn-danger btn-sm">Rejeter</a>
             </td>

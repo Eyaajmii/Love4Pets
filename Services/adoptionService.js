@@ -1,11 +1,12 @@
 const Adoption = require("../models/adoption");
-
+const Animal = require("../models/animal");
+const Adoptant = require("../models/adoptant");
 class AdoptionService {
   static async getAllAdoptions() {
     try {
       return await Adoption.find()
-        .populate("adoptant", "name")
-        .populate("animal", "name");
+        .populate("animal", "nom")
+        .populate("adoptant", "prenom nom ");
     } catch (error) {
       throw new Error("Error fetching adoptions: " + error);
     }
@@ -14,8 +15,8 @@ class AdoptionService {
   static async getAdoptionById(id) {
     try {
       const adoption = await Adoption.findById(id)
-        .populate("adoptant", "name email")
-        .populate("animal", "name type race");
+        .populate("adoptant", "prenom nom")
+        .populate("animal", "nom espece age");
       if (!adoption) {
         throw new Error("Adoption request not found");
       }
@@ -25,6 +26,7 @@ class AdoptionService {
     }
   }
 
+  //admin accepte ou reject
   static async updateAdoptionStatus(id, status) {
     try {
       const updatedAdoption = await Adoption.findByIdAndUpdate(
@@ -40,6 +42,7 @@ class AdoptionService {
       throw new Error("Error updating adoption status: " + error);
     }
   }
+  //add demande
   static async createAdoptionRequest(animalId, userId) {
     try {
       const animal = await Animal.findById(animalId);
@@ -47,7 +50,7 @@ class AdoptionService {
         throw new Error("Animal not found");
       }
 
-      const adoptant = await User.findById(userId);
+      const adoptant = await Adoptant.findById(userId);
       if (!adoptant) {
         throw new Error("User not found");
       }
@@ -64,12 +67,12 @@ class AdoptionService {
       throw new Error("Error creating adoption request: " + error.message);
     }
   }
-  //user get his requests
-  static async getAdoptionsByUserId(userId) {
+  //requests by adoptant
+  static async getAdoptionsByUserId(id) {
     try {
-      const adoptions = await Adoption.find({ adoptant: userId })
-        .populate("animal", "name type race")
-        .populate("adoptant", "name email");
+      const adoptions = await Adoption.find({ adoptant: id })
+        .populate("animal", "nom espece age")
+        .populate("adoptant", "nom email");
 
       return adoptions;
     } catch (error) {
@@ -78,9 +81,9 @@ class AdoptionService {
   }
 
   // Annuler une demande d'adoption en cours
-  static async cancelAdoptionRequest(adoptionId) {
+  static async cancelAdoptionRequest(id) {
     try {
-      const adoption = await Adoption.findById(adoptionId);
+      const adoption = await Adoption.findById(id);
       if (!adoption) {
         throw new Error("Adoption request not found");
       }
@@ -90,8 +93,7 @@ class AdoptionService {
           "Adoption request cannot be canceled, it has already been processed"
         );
       }
-
-      await Adoption.findByIdAndDelete(adoptionId);
+      await Adoption.findByIdAndDelete(id);
       return { message: "Adoption request canceled successfully" };
     } catch (error) {
       throw new Error("Error canceling adoption request: " + error.message);

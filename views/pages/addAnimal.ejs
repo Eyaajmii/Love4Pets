@@ -23,10 +23,7 @@
       <input type="text" name="taille" class="form-control" required>
   </div>
 
-  <div class="form-group">
-      <label for="statut">Status:</label>
-      <input type="text" name="statut" class="form-control" required>
-  </div>
+
 
   
 
@@ -53,10 +50,11 @@
       <input type="text" name="incompatibilite" class="form-control">
   </div>
 
-  <div class="form-group">
-      <label for="vaccination">Vaccination:</label>
-      <input type="text" name="vaccination" class="form-control">
+  <div class="form-group form-check">
+    <input type="checkbox" id="vaccination" name="vaccination" class="form-check-input">
+    <label for="vaccination" class="form-check-label">Vaccinated</label>
   </div>
+  
 
   <button type="submit" class="btn btn-primary">Add Animal</button>
 </form>
