@@ -6,18 +6,15 @@ const AdoptantService = require("../Services/adoptantService");
 const AuthService = require("../Services/authService");
 const jwt = require("jsonwebtoken");
 
-// Middleware pour vérifier l'authentification admin
+// vérifier l'auth
 const adminAuth = (req, res, next) => {
-  console.log("Cookies received:", req.cookies);
+  console.log("Cookie:", req.cookies);
 
   const token = req.cookies.adminToken;
   if (!token) {
-    console.log("No adminToken found in cookies.");
+    console.log("No adminToken found");
     return res.status(401).redirect("/admin/login");
   }
-
-  console.log("Token to verify:", token);
-
   jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
     if (err) {
       console.log("JWT verification error:", err.message);
@@ -38,9 +35,18 @@ const adminAuth = (req, res, next) => {
 
 
 // Routes Admin
-router.get("/",adminAuth,(req, res) => {
-  res.render("pages/dashboard", { body: "" });
+router.get("/", adminAuth, async (req, res) => {
+  const totalAnimals = await AnimalService.getTotalAnimals();
+  const totalAdoptant = await AdoptantService.getTotalAdoptant();
+  const adoptionRequests = await AdoptionService.getTotalAdoption();
+  res.render("pages/dashboard", {
+    totalAnimals,
+    totalAdoptant,
+    adoptionRequests,
+    monthlyStats: 75,
+  });
 });
+
 
 router.get("/login", (req, res) => {
   res.render("pages/loginAdmin", { body: "" });
@@ -98,7 +104,6 @@ router.post("/animal/add", adminAuth, async (req, res) => {
     await AnimalService.createAnimal(animalData);
     res.status(200).redirect("/admin/animals");
   } catch (error) {
-    console.error("Error adding animal:", error.message);
     res.status(400).send(`Error adding animal: ${error.message}`);
   }
 });

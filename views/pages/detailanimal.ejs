@@ -1,18 +1,103 @@
-<%- include('admin') %> 
-<div class="content container mt-5">
-  <h1 class="mb-4 text-center">Animal Details</h1>
+<%- include('admin') %>
+<style>
+  .content {
+    margin-left: 250px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
 
+  .content h1 {
+    font-size: 2.5rem;
+    font-family:serif;
+    font-weight: 700;
+    color: #232527;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; 
+    margin-bottom: 10px;
+    width: 80%;
+    max-width: 800px; 
+  }
+
+  .card-header {
+    background-color: #8aadcf;
+    color: white;
+    font-size: 1rem;
+    font-weight: 200px;
+    padding: 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+  }
+
+  .card-body {
+    padding: 10px;
+    background-color: #ecf0f1;
+  }
+
+  .list-group-item {
+    font-size: 1.125rem;
+    padding: 15px;
+    border: none;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    color: #1f1f1f;
+  }
+
+  .card-footer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: right;
+    border-top: 1px solid #ddd;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  .card-footer a {
+    padding: 12px 18px;
+    text-decoration: none;
+    background-color: #f39c12;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 1.125rem;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  .card-footer a:hover {
+    background-color: #e67e22;
+    transform: translateY(-3px);
+  }
+
+  .card-footer a:first-child {
+    margin-right: 20px;
+  }
+
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<div class="content container">
+  <h1 class="mb-4">Animal Details</h1>
   <div class="card">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header">
       <h3 class="card-title"><%= animal.nom %></h3>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4">
-          <!-- Image de l'animal (remplacer par une URL dynamique si disponible) -->
-          <img src="<%= animal.image || 'https://via.placeholder.com/300' %>" alt="<%= animal.nom %>" class="img-fluid rounded">
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-5">
           <ul class="list-group">
             <li class="list-group-item"><strong>Species:</strong> <%= animal.espece %></li>
             <li class="list-group-item"><strong>Age:</strong> <%= animal.age %> years</li>
@@ -25,11 +110,14 @@
             <li class="list-group-item"><strong>Search:</strong> <%= animal.recherche || 'N/A' %></li>
           </ul>
         </div>
+        <div class="col-md-6">
+          <img src="<%= animal.image || 'https://via.placeholder.com/300' %>" alt="<%= animal.nom %>" class="img-fluid">
+        </div>
       </div>
     </div>
-    <div class="card-footer text-end">
-      <a href="/admin/edit/<%= animal._id %>" class="btn btn-warning">Edit</a>
-      <a href="/admin/animals">Back </a>
+    <div class="card-footer">
+      <a href="/admin/edit/<%= animal._id %>" class="btn">Edit</a>
+      <a href="/admin/animals" class="btn">Back</a>
     </div>
   </div>
 </div>

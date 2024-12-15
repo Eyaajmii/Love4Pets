@@ -11,7 +11,14 @@ class AdoptionService {
       throw new Error("Error fetching adoptions: " + error);
     }
   }
-
+  static async getTotalAdoption() {
+    try {
+      const adpt = await Adoption.find();
+      return adpt.length;
+    } catch (error) {
+      throw new Error(`Error fetching total animals: ${error.message}`);
+    }
+  }
   static async getAdoptionById(id) {
     try {
       const adoption = await Adoption.findById(id)
@@ -20,7 +27,7 @@ class AdoptionService {
       if (!adoption) {
         throw new Error("Adoption request not found");
       }
-      return adoption;
+    return adoption;
     } catch (error) {
       throw new Error("Error retrieving adoption: " + error);
     }
@@ -32,7 +39,6 @@ class AdoptionService {
       const updatedAdoption = await Adoption.findByIdAndUpdate(
         id,
         { statut: status },
-        { new: true }
       );
       if (!updatedAdoption) {
         throw new Error("Adoption request not found");

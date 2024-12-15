@@ -1,43 +1,119 @@
 <%- include('admin') %>
-<section>
-  <h1>Détails de la Demande d'Adoption</h1>
-  <table>
-    <tr>
-      <th>ID :</th>
-      <td><%= demande._id %></td>
-    </tr>
-    <tr>
-      <th>Date de Demande :</th>
-      <td><%= demande.DateDemande.toLocaleDateString() %></td>
-    </tr>
-    <tr>
-      <th>Statut :</th>
-      <td><%= demande.statut %></td>
-    </tr>
-    <tr>
-      <th>Commentaire :</th>
-      <td><%= demande.Commentaire || "Aucun commentaire" %></td>
-    </tr>
-    <tr>
-      <th>Adoptant :</th>
-      <td>
-        <strong>Nom :</strong> <%= demande.adoptant.nom %><br>
-        <strong>Email :</strong> <%= demande.adoptant.email %>
-      </td>
-    </tr>
-    <tr>
-      <th>Animal :</th>
-      <td>
-        <strong>Nom :</strong> <%= demande.animal.nom %><br>
-        <strong>Type :</strong> <%= demande.animal.espece %><br>
-        <strong>Race :</strong> <%= demande.animal.age %>
-      </td>
-    </tr>
-    <tr>
-      <th>Date d'Adoption (si approuvée) :</th>
-      <td><%= demande.DateAdoption ? demande.DateAdoption.toLocaleDateString() : "Non disponible" %></td>
-    </tr>
-  </table>
+<style>
+  .content {
+    margin-left: 250px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
 
-  <a href="/admin/listedemande" class="btn btn-secondary">Retour à la liste</a>
+  .content h1 {
+    font-size: 2.5rem;
+    font-family: serif;
+    font-weight: 700;
+    color: #232527;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; 
+    margin-bottom: 10px;
+    width: 80%;
+    max-width: 800px; 
+  }
+
+  .card-header {
+    background-color: #8aadcf;
+    color: white;
+    font-size: 1rem;
+    font-weight: 200px;
+    padding: 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+  }
+
+  .card-body {
+    padding: 10px;
+    background-color: #ecf0f1;
+  }
+
+  .list-group-item {
+    font-size: 1.125rem;
+    padding: 15px;
+    border: none;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    color: #1f1f1f;
+  }
+
+  .card-footer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: right;
+    border-top: 1px solid #ddd;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  .card-footer a {
+    padding: 12px 18px;
+    text-decoration: none;
+    background-color: #f39c12;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 1.125rem;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  .card-footer a:hover {
+    background-color: #e67e22;
+    transform: translateY(-3px);
+  }
+
+  .card-footer a:first-child {
+    margin-right: 20px;
+  }
+
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<section class="content container">
+  <h1 class="mb-4">Détails de la Demande d'Adoption</h1>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Demande ID: <%= demande._id %></h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Date de Demande:</strong> <%= demande.DateDemande.toLocaleDateString() %></li>
+            <li class="list-group-item"><strong>Statut:</strong> <%= demande.statut %></li>
+            <li class="list-group-item"><strong>Commentaire:</strong> <%= demande.Commentaire || "Aucun commentaire" %></li>
+            <li class="list-group-item"><strong>Adoptant:</strong> <%= demande.adoptant.nom %> <%= demande.adoptant.prenom %></li>
+            <li class="list-group-item"><strong>Animal:</strong> <%= demande.animal.nom %> (Type: <%= demande.animal.espece %>, Race: <%= demande.animal.age %>)</li>
+            <li class="list-group-item"><strong>Date d'Adoption:</strong> <%= demande.DateAdoption ? demande.DateAdoption.toLocaleDateString() : "Non disponible" %></li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <img src="<%= demande.animal.image || 'https://via.placeholder.com/300' %>" alt="<%= demande.animal.nom %>" class="img-fluid">
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="/admin/listedemande" class="btn">Retour à la liste</a>
+    </div>
+  </div>
 </section>

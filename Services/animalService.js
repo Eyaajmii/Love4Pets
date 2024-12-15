@@ -8,7 +8,15 @@ class AnimalService {
       throw new Error("Error fetching animals: " + error);
     }
   }
-
+  /** Static : Accès direct à la méthode sans instance*/
+  static async getTotalAnimals() {
+    try {
+      const animals = await Animal.find();
+      return animals.length;
+    } catch (error) {
+      throw new Error(`Error fetching total animals: ${error.message}`);
+    }
+  }
   static async getAnimalById(id) {
     try {
       const animal = await Animal.findById(id);

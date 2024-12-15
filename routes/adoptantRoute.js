@@ -9,9 +9,17 @@ router.get("/signup", (req, res) => {
   res.status(200);
 });
 router.post("/signup", async (req, res) => {
-  const { cin,nom, prenom, username, email, password } = req.body;
+  const { cin, nom, prenom, username, email, password, telephone } = req.body;
   try{
-    const creerAdopatnt=await authService.signup(cin,nom,prenom,username,email,password);
+    const creerAdopatnt = await authService.signup(
+      cin,
+      nom,
+      prenom,
+      username,
+      email,
+      password,
+      telephone
+    );
     res
       .status(200)
       .json({ message: "Inscription réussie", creerAdopatnt });
@@ -50,9 +58,9 @@ router.get("/adoptant/:id", async(req, res) => {
 
 router.put("/editprofile/:id",async (req, res) => {
   const { id } = req.params;
-  const { nom, prenom, username, email, password } = req.body;
+  const { nom, prenom, username, email, password, telephone } = req.body;
 
-  const updatedData = { nom, prenom, username, email, password }; 
+  const updatedData = { nom, prenom, username, email, password, telephone }; 
   try {
     const updatedAdoptant = await AdoptantService.UpdateAdoptant(id, updatedData);
     res.status(200).json({ message: "Profil mis à jour", adoptant: updatedAdoptant });

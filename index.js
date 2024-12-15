@@ -11,7 +11,6 @@ const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
-// Middleware
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +22,6 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-// View engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -32,7 +30,6 @@ app.use("/adoptant", adoptantRoute);
 app.use("/admin", adminRoute);
 
 
-// Server start
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

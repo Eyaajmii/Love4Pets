@@ -1,4 +1,10 @@
 <%- include('admin') %>
+<style>
+.content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+</style>
 <div class="content">
     <form action="/admin/edit/<%= animal._id %>?_method=PUT" method="POST" class="container">
         <h2>Edit Animal</h2>

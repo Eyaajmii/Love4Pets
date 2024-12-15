@@ -4,13 +4,6 @@ const AdoptionSchema = new mongoose.Schema(
   {
     DateAdoption: {
       type: Date,
-      validate: {
-        validator: function (value) {
-          return value >= this.DateDemande;
-        },
-        message:
-          "La date d'adoption doit être ultérieure à la date de demande.",
-      },
     },
     statut: {
       type: String,
@@ -35,14 +28,14 @@ const AdoptionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "animal",
       required: [true, "Un animal est requis pour une adoption."],
-      validate: {
+      /*validate: {
         validator: async function (id) {
           const Animal = mongoose.model("animal");
           const animal = await Animal.findById(id);
           return animal && animal.statut !== "Adopted";
         },
         message: "L'animal sélectionné est déjà adopté.",
-      },
+      },*/
     },
   },
   {

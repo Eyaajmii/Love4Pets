@@ -3,7 +3,6 @@ const { generateAccessToken } = require("../Middlewares/Auth");
 const admins = [{ id: 1, username: "admineya", password: "eyaeya123" }];
 
 class AuthService {
-  // Authentification pour admin et adoptants
   static async authenticate(username, password) {
     const admin = admins.find(
       (a) => a.username === username && a.password === password
@@ -24,7 +23,7 @@ class AuthService {
   }
 
   // Inscription des adoptants
-  static async signup(cin, nom, prenom, username, email, password) {
+  static async signup(cin, nom, prenom, username, email, password,telephone) {
     const existingUser = await Adoptant.findOne({
       $or: [{ username }, { email }, { cin }],
     });
@@ -38,6 +37,7 @@ class AuthService {
       username,
       email,
       password,
+      telephone,
     });
     await adoptant.save();
     const token = generateAccessToken(username, "adoptant");

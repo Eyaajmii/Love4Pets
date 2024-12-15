@@ -8,7 +8,14 @@ class AdoptantService {
       throw new Error("error retrieving adoptants: " + error);
     }
   }
-
+  static async getTotalAdoptant() {
+    try {
+      const adp = await Adoptant.find();
+      return adp.length;
+    } catch (error) {
+      throw new Error(`Error fetching total animals: ${error.message}`);
+    }
+  }
   static async getAdoptantById(id) {
     try {
       const adoptant = await Adoptant.findById(id);
@@ -20,27 +27,29 @@ class AdoptantService {
       throw new Error("Error retrieving adoptant: " + error);
     }
   }
-  static async UpdateAdoptant(id,updatedata){
-    try{
-      const adoptant = await Adoptant.findByIdAndUpdate(id,updatedata,{new:true});
-      if(!adoptant){
+  static async UpdateAdoptant(id, updatedata) {
+    try {
+      const adoptant = await Adoptant.findByIdAndUpdate(id, updatedata, {
+        new: true,
+      });
+      if (!adoptant) {
         throw new Error("Adoptant not found");
-        }
-        return adoptant;
-        }catch(error){
-          throw new Error("Error updating adoptant: "+error);
-        }
+      }
+      return adoptant;
+    } catch (error) {
+      throw new Error("Error updating adoptant: " + error);
+    }
   }
-  static async deleteAdoptant(id){
-    try{
+  static async deleteAdoptant(id) {
+    try {
       const adoptant = await Adoptant.findByIdAndDelete(id);
-      if(!adoptant){
+      if (!adoptant) {
         throw new Error("Adoptant not found");
-        }
-        return adoptant;
-        }catch(error){
-          throw new Error("Error deleting adoptant: "+error);
-          }
+      }
+      return adoptant;
+    } catch (error) {
+      throw new Error("Error deleting adoptant: " + error);
+    }
   }
 }
 

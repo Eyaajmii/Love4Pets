@@ -17,8 +17,8 @@ const AdoptantSchema = new mongoose.Schema(
     adresse: { type: String, required: false },
     telephone: {
       type: String,
-      required: false,
-      match: /^\+?[0-9]{10,15}$/,
+      required: true,
+      match: /^[0-9]{8}$/,
     },
     typeHabit: { type: String, required: false },
     experienceAnimaux: { type: Boolean },
